@@ -16,6 +16,7 @@ const myMarker=L.icon({
 var lat;
 var long;
 var acc;
+var currentZoomLevel=13;
 
 const markLocation=()=>{
     if(!navigator.geolocation){
@@ -26,14 +27,19 @@ const markLocation=()=>{
             long=position.coords.longitude
             acc=position.coords.accuracy
     
-            map.setView([lat,long],13)
-            L.marker([lat,long],{icon:myMarker}).addTo(map).bindPopup("This is my <b>location</b>").openPopup()
+            map.setView([lat,long],currentZoomLevel)
+
+            L.marker([lat,long],{icon:myMarker})
+            .addTo(map)
+            .bindPopup("This is my <b>location</b>")
+            .openPopup()
         })
     } 
 } 
  
 const updateLocation = () => {
     markLocation();
+    currentZoomLevel=map.getZoom()
     setTimeout(updateLocation, 3000);
 };
 
