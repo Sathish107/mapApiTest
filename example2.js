@@ -1,18 +1,35 @@
-var map = L.map('map').fitWorld();
+var latitude ;
+var longitude ;  
+var latlong;
+const getLocation=async ()=> {
+    await navigator.geolocation.getCurrentPosition(
+    function(position) { 
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
+        console.log(`Latitude: ${latitude}, Longitude: ${longitude}`); 
+        console.log(typeof latitude)
+    }); 
 
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19, 
-}).addTo(map);
+} 
 
-map.locate({setView: true, maxZoom: 16});
-
-function onLocationFound(e) {
-    var radius = e.accuracy;
-
-    L.marker(e.latlng).addTo(map)
-        .bindPopup("You are within " + radius + " meters from this point").openPopup();
-
-    L.circle(e.latlng, radius).addTo(map);
+const setLocation=async ()=>{ 
+        await getLocation(); 
+        console.log("Failed to wait")
+        var map = L.map('map').setView([12.9889,79.9702], 13);
+        
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19 
+        }).addTo(map);
+        latlng = {
+            lat:latitude,
+            lng:longitude
+        };    
 }
 
-map.on('locationfound', onLocationFound);
+setLocation();
+
+// const markLocation=()=>{
+//     var marker =L.marker(latlng).addTo(map); 
+// }
+
+
