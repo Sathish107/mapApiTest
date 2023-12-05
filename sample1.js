@@ -1,4 +1,4 @@
-var map = L.map('map').fitWorld()
+var map = L.map('map').setView([12.9889,79.9702],5)
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 22 
@@ -17,6 +17,7 @@ var lat;
 var long;
 var acc;
 var currentZoomLevel=13;
+var marker;
 
 const markLocation=()=>{
     if(!navigator.geolocation){
@@ -29,7 +30,11 @@ const markLocation=()=>{
     
             map.setView([lat,long],currentZoomLevel)
 
-            L.marker([lat,long],{icon:myMarker})
+            if(marker){
+                map.removeLayer(marker)
+            }
+
+            marker=L.marker([lat,long],{icon:myMarker})
             .addTo(map)
             .bindPopup("This is my <b>location</b>")
             .openPopup()
