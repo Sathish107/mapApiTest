@@ -45,7 +45,7 @@ const markLocation=()=>{
 const updateLocation = () => {
     markLocation();
     currentZoomLevel=map.getZoom()
-    setTimeout(updateLocation, 3000);
+    setTimeout(updateLocation, 1000);
 };
 
 updateLocation();
